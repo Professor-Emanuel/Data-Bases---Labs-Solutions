@@ -1,0 +1,97 @@
+/* E1 */
+INSERT INTO dept VALUES(50, 'DEVELOPMENT', 'DETROIT');
+
+/* E2 */
+DELETE FROM dept where deptno=50;
+
+/* E3 */
+INSERT INTO dept VALUES(60, 'MIS');
+
+/* E4 */
+INSERT INTO dept VALUES(70, 'FINANCE', NULL);
+
+/* E5 */
+INSERT INTO emp VALUES(7196, 'GREEN', 'SALESMAN', 7782, SYSDATE, 2000, NULL, 10);
+
+/* E6 we don't need to specify (id, name, salary, hiredate) but we can do it*/
+INSERT INTO managers(id, name, salary, hiredate)
+VALUES(90, Ema, 2650, SYSDATE)
+
+/* E7 */ 
+UPDATE emp
+SET deptno = 20
+WHERE empno = 7782;
+
+
+/* E8 */
+UPDATE emp
+SET (job, deptno) = (SELECT job, deptno
+                     FROM emp
+                     WHERE ...did not catch what was here...);
+
+/* E9 */
+DELETE FROM dept
+WHERE dname = 'SALES';
+
+/* E10 different tables */
+DELETE FROM emp
+WHERE deptno = (SELECT deptno
+               FROM dept
+               WHERE dname='SALES');
+/* E11 after commit we lose everything that was initially*/
+UPDATE emp
+...
+COMMIT
+/* E12 */
+UPDATE ...
+SAVEPOINT update_date;
+
+/* P1 create a new table*/
+CREATE TABLE my_employee (id NUMBER(4), last_name VARCHAR2(25), first_name VARCHAR2(25), Userid VARCHAR2(8), Salary NUMBER(9,2));
+
+/* P2 */
+INSERT INTO my_employee VALUES(01, 'Patel', 'Ralph', 'rpatel', 795);
+
+/* P3 */
+INSERT INTO my_employee(id, last_name, first_name, userid, salary)
+VALUES(02, 'Dancs', 'Betty', 'bdancs', 860);
+
+/* P4 */
+SELECT * FROM my_employee ORDER BY id
+
+/* P5 */
+UPDATE my_employee
+SET last_name = 'Drexler'
+WHERE id=1; 
+
+/* P6 */
+UPDATE my_employee
+SET salary = 1000;
+
+/* P7 */
+DELETE FROM my_employee
+WHERE id=2;
+
+/* better */
+DELETE FROM my_employee
+WHERE last_name ='Dancs' AND first_name='Betty';
+
+/* P8 */
+SELECT * FROM my_employee;
+
+/* P9 */
+INSERT INTO my_employee(id, first_name, salary) (SELECT empno, ename, sal
+                     FROM emp
+                     WHERE job='SALESMAN');
+
+/* P10 */
+UPDATE my_employee 
+SET salary = (SELECT e.salary
+             FROM my_employee e
+             WHERE e.id = 1)
+WHERE salary > 1500;
+
+/* P11 */
+UPDATE my_employee 
+SET userid=(SELECT userid FROM my_employee WHERE last_name='Drexler') 
+WHERE salary<=(SELECT salary FROM my_employee WHERE first_name='MARTIN');

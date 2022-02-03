@@ -1,0 +1,124 @@
+/* E1 */
+SELECT AVG(sal), MAX(sal), MIN(sal), SUM(sal)
+FROM emp
+WHERE job LIKE 'SALES%';
+
+/* E2 */
+SELECT MIN(hiredate), MAX(hiredate)
+FROM emp;
+
+/* E3 */
+SELECT COUNT(*)
+FROM emp
+WHERE deptno = 30;
+
+/* E4 */
+SELECT COUNT(comm)
+FROM emp
+WHERE deptno = 30;
+
+/* E5 ignores null values*/
+SELECT AVG(comm)
+FROM emp;
+
+/* E6 to not ignore null values */
+SELECT AVG(NVL(comm,0))
+FROM emp;
+
+/* E7 average for each department */
+SELECT deptno, AVG(sal)
+FROM emp
+GROUP BY deptno
+
+/* E8 */
+SELECT deptno, job, SUM(sal)
+FROM emp
+GROUP BY deptno, job
+
+/* E9  error */
+SELECT deptno, COUNT(ename)
+FROM emp;
+
+/* avoid the error */
+SELECT deptno, COUNT(ename)
+FROM emp
+GROUP BY deptno;
+
+/* E10 */
+SELECT deptno, COUNT(ename)
+FROM emp
+WHERE AVG(sal) > 2000 /* where does not restric groups, use HAVING; WHERE excludes rows only */
+GROUP BY deptno;
+
+/* so excluding groups , we use HAVING*/
+SELECT deptno, COUNT(ename)
+FROM emp
+HAVING AVG(sal) > 2000 /* where does not restric groups, use HAVING */
+GROUP BY deptno;
+
+/* E11 */
+SELECT deptno, MAX(sal)
+FROM emp
+GROUP BY deptno
+HAVING MAX(sal)>2900;
+
+/* E12 */
+SELECT job, SUM(sal) PAYROLL
+FROM emp
+WHERE job NOT LIKE 'SALES%'
+GROUP BY job
+HAVING SUM(sal)>5000
+ORDER BY SUM(sal);
+
+/* E13 */
+SELECT max(avg(sal))
+FROM emp
+GROUP BY deptno;
+
+/* P1 */
+SELECT MAX(sal) Maximum, MIN(sal) Minimum, SUM(sal) Sum, ROUND(AVG(sal),2) Average
+FROM emp
+
+/* P2 */
+SELECT job, MAX(sal) Maximum, MIN(sal) Minimum, SUM(sal) Sum, ROUND(AVG(sal),2) Average
+FROM emp
+GROUP BY job
+
+/* P3 */
+SELECT job, COUNT(ename)
+FROM emp
+GROUP BY job
+
+/* P4 */
+SELECT COUNT(job) "Number of Jobs"
+FROM emp
+GROUP BY job
+HAVING job LIKE 'MANAGER'
+
+/* P5 */
+SELECT (MAX(sal)-MIN(sal)) "Difference"
+FROM emp;
+
+/* P6 */
+SELECT mgr, MIN(sal)
+FROM emp
+WHERE mgr IS NOT NULL
+GROUP BY mgr
+HAVING MIN(sal)>1000
+ORDER BY MIN(sal) desc;
+
+/* P7 */
+SELECT deptno, job, AVG(NVL(comm,0))
+FROM emp
+WHERE deptno IN (10, 20, 30)
+GROUP BY job, deptno
+ORDER BY deptno;
+
+/* P8 join tables */
+SELECT SUM(e.sal), d.loc
+FROM emp e, dept d
+WHERE d.deptno = e.deptno
+GROUP BY d.loc;
+
+/* P9 */
+...

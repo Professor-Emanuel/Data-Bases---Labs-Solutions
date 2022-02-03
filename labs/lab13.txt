@@ -1,0 +1,20 @@
+/* P16 */
+
+CREATE TABLE emp2
+AS SELECT empno ID, ename FIRST_NAME, deptno DEPT_ID, sal SALARY
+FROM emp;
+
+
+/* or */
+CREATE TABLE emp2
+AS SELECT empno AS ID, ename AS FIRST_NAME, deptno AS DEPT_ID, sal AS SALARY
+FROM emp;
+
+/* P17 */
+
+UPDATE emp2 SET ID=(SELECT ID from emp2 WHERE first_name='Clark') 
+WHERE salary<=(SELECT salary FROM emp2 WHERE first_name='MARTIN');
+
+/* P18 */
+ALTER TABLE emp2
+ADD CONSTRAINT sal_ck CHECK(salary BETWEEN 500 AND 5500);

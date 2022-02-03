@@ -1,0 +1,95 @@
+/* E1 */
+CREATE VIEW empvu10
+AS SELECT empno, ename, job
+FROM emp
+WHERE deptno = 10;
+
+/* E2 */
+DESCRIBE empvu10
+
+/* E3 */
+CREATE VIEW salvu30
+AS SELECT empno EMPLOYEE_NUMBER, ename NAME, sal SALARY
+FROM emp
+WHERE deptno=30;
+
+/* E4 */
+DESCRIBE salvu30;
+or
+SELECT * FROM salvu30;
+
+/* E5 */
+CREATE OR REPLACE VIEW empvu10(employee_number, employee_name, employee_job)
+AS SELECT ...
+FROM ...
+WHERE ...
+
+/* E6 */
+CREATE VIEW dept_sum_vu(name, minsal, maxsal, avgsal)
+AS SELECT d.dname, MIN(e.sal), MAX(e.sal), AVG(e.sal)
+FROM emp e, dept d
+WHERE e.deptno = d.deptno
+GROUP BY d.dname;
+
+
+
+/* P1 */
+CREATE VIEW emp_vu
+AS SELECT empno, ename EMPLOYEE, deptno
+FROM emp;
+
+
+
+/* P2 */
+SELECT * FROM emp_vu;
+
+
+/* P3 */
+SELECT view_name, text 
+FROM user_views;
+
+/* P4 */
+CREATE OR REPLACE VIEW emp_vu
+AS SELECT ename EMPLOYEE, deptno
+FROM emp;
+
+/* P5 */
+CREATE VIEW dept20
+AS SELECT empno EMPLOYEE_ID, ename EMPLOYEE, deptno DEPARTMENT_ID
+FROM emp
+WHERE deptno=20;
+
+/* P6 */
+DESCRIBE dept20;
+or
+SELECT * FROM dept20;
+
+/* P7 */
+CREATE VIEW salary_vu
+AS SELECT e.ename "EMPLOYEE", d.dname "DEPARTMENT", e.sal "SALARY"
+FROM emp e, dept d
+WHERE e.deptno = d.deptno;
+
+/* P8 */
+CREATE VIEW number_of_employees
+AS SELECT deptno, COUNT(ename) "NUMBER"
+FROM emp
+GROUP BY deptno;
+
+/* P9 */
+CREATE VIEW first_employee
+AS SELECT d.dname, MIN(e.hiredate) first_hired
+FROM emp e, dept d
+WHERE e.deptno =d.deptno
+GROUP BY d.dname;
+
+/* P10 */
+DROP VIEW salary_vu;
+DROP VIEW number_of_employees;
+DROP VIEW first_employee;
+
+
+
+
+
+

@@ -1,0 +1,61 @@
+/* e1 */
+SELECT ename || ' is a president ' || job as "Description", sal*12 as "Annual salary"
+FROM emp;
+
+/* e2 */
+SELECT ename, job, hiredate 
+FROM emp
+WHERE sal>1000 AND sal<2000
+ORDER by hiredate desc;
+
+/* e3 */
+SELECT ename, sal
+FROM emp
+WHERE ename LIKE 'S%' OR ename LIKE 'A%';
+
+/* e4 */
+SELECT ename, sal, ROUND(sal*0.25 + sal) "New Salary"
+FROM emp
+ORDER BY "New Salary";
+
+/* e5 */
+SELECT ename, job
+FROM emp
+WHERE job LIKE '-A%'
+ORDER BY LENGTH(ename);
+
+/* e6 */
+SELECT ename, sal, comm, MOD(sal, NVL(comm,0)) "Rest" 
+FROM emp
+WHERE job LIKE 'SALES%';
+
+/* e7 */
+
+/* e8 */
+
+/* e9 */
+
+/* e10 */
+SELECT ename, deptno
+FROM emp
+WHERE deptno = (SELECT deptno FROM emp WHERE ename='SMITH');
+
+/* e11 */
+SELECT ename, hiredate
+FROM emp
+WHERE hiredate >  (SELECT hiredate FROM emp WHERE ename='BLAKE');
+
+/* e12 */
+SELECT d.dname, COUNT(e.empno), MIN(e.hiredate)
+FROM emp e, dept d
+WHERE e.deptno = d.deptno AND d.dname='RESEARCH'
+GROUP BY d.dname;
+
+/* e13 NU FUNCTIONEAZA*/
+SELECT e.ename, d.deptno, d.dname, MIN(e.hiredate)
+FROM emp e, dept d
+WHERE e.deptno = d.deptno
+GROUP BY d.dname;
+/* e14 */
+
+/* e15 */

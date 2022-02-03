@@ -1,0 +1,148 @@
+/* Ex1 */
+SELECT ename
+FROM emp
+WHERE sal>(SELECT sal
+            FROM emp
+            WHERE empno=7566);
+/* Ex2 */
+SELECT ename
+FROM emp
+WHERE job=(SELECT job
+            FROM emp
+            WHERE empno=7369);
+
+/* Ex3  single-row subqueries */
+SELECT ename, job
+FROM emp
+WHERE job=(SELECT job
+            FROM emp
+            WHERE empno=7369)
+AND sal>(SELECT sal
+            FROM emp
+            WHERE empno=7900)
+/* Ex4  using group functions in a subquery*/
+SELECT ename, job, sal
+FROM emp
+WHERE sal=(SELECT MIN(sal)
+            FROM emp);
+/* Ex5 having - excludes groups */
+SELECT deptno, MIN(sal)
+FROM emp
+GROUP BY deptno
+HAVING MIN(sal)>(SELECT MIN(sal)
+                FROM emp
+               WHERE deptno=20);
+/* Ex6  - wrong */
+SELECT empno, ename
+FROM emp
+WHERE sal=(SELECT MIN(sal)
+                FROM emp
+               GROUP BY deptno);
+ 
+/* error, insead of =(single row operator) use IN (group row operator) */
+SELECT empno, ename
+FROM emp
+WHERE sal IN (SELECT MIN(sal)
+                FROM emp
+               GROUP BY deptno);
+
+/* EX7 might work or not depending on last WHERE*/
+SELECT ename, job
+FROM emp
+WHERE job=(SELECT job
+           FROM emp
+           WHERE ename='SMYTHE');
+/* Ex8 < ANY means smaller than maximum, >ANY means greater than minimum */
+SELECT empno, ename, job
+FROM emp
+WHERE sal < ANY
+           (SELECT sal
+           FROM emp
+           WHERE job='CLERK')
+AND job <> 'CLERK';
+
+/*  Ex9 */
+SELECT empno, ename, job
+FROM emp
+WHERE sal > ALL
+           (SELECT avg(sal)
+           FROM emp
+           GROUP BY deptno)
+/* P1 */
+SELECT ename, hiredate
+FROM emp
+WHERE deptno=(SELECT deptno
+           FROM emp
+           WHERE ename='BLAKE')
+AND ename <> 'BLAKE';
+
+/* P2 */
+SELECT empno, ename
+FROM emp
+WHERE sal>(SELECT avg(sal)
+           FROM emp
+           )
+ORDER BY sal DESC;
+
+/* P3 multiple row operator IN */
+SELECT empno, ename
+FROM emp
+WHERE deptno IN (SELECT deptno
+           FROM emp
+           WHERE ename like '%T%'
+           );
+ 
+/* P4 */
+
+/* JOIN */
+SELECT e.ename, e.job, d.deptno
+FROM emp e, dept d
+WHERE d.deptno=e.deptno AND d.loc='DALLAS';
+
+or
+/* SUBQUERIES */
+SELECT ename, job, deptno
+FROM emp
+WHERE deptno=(SELECT deptno
+             FROM dept
+             WHERE dname='DALLAS');
+
+
+/* P5 */
+SELECT ename, sal
+FROM emp
+WHERE mgr= (SELECT empno
+           FROM emp
+           WHERE ename='KING');
+ 
+/* P6 */
+SELECT deptno, ename, sal
+FROM emp
+WHERE deptno= (SELECT deptno
+           FROM dept
+           WHERE dname='SALES');
+/* P7 */
+SELECT ename, sal, job
+FROM emp
+WHERE sal< ANY (SELECT sal
+           FROM emp
+           WHERE job='CLERK')
+AND job <> 'CLERK';
+
+/* P8 */
+SELECT ename, sal, job
+FROM emp
+WHERE sal> ALL (SELECT sal
+           FROM emp
+           WHERE job='MANAGER');
+ 
+/* P9 */
+SELECT round(avg(sal),1), job
+FROM emp
+GROUP BY job
+HAVING avg(sal)>(SELECT avg(sal)
+           FROM emp
+           );
+/* */
+
+/* */

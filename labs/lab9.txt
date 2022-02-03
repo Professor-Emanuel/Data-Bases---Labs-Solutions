@@ -1,0 +1,86 @@
+/* E1 */
+CREATE TABLE dept
+	( dname VARCHAR(2)
+/* E2 */
+SELECT * 
+FROM user_tables;
+
+SELECT DISTINCT object_type
+FROM user_objects;
+
+SELECT *
+FROM user_catalog;
+/* synonim with: */
+SELECT *
+FROM cat;
+
+/* E3 */
+CREATE TABLE dept30
+AS     SELECT empno, ename, sal*12 ANNSAL, hiredate
+       FROM emp
+       WHERE deptno=30;
+
+/*
+DESCRIBE dept30;
+*/
+
+/* E4 add-modify a table*/
+ALTER TABLE dept30
+ADD (job VARCHAR2(30));
+
+/* E5 it affects only subsequent new rows, the previous ones remain the same*/
+ALTER TABLE dept30
+MODIFY (ename VARCHAR2(15));
+
+/* E6 next command is to delete the table - we lose everything permanently - has a COMMIT attched as CREATE TABLE*/
+DROP TABLE dept30;
+
+/* E7 */
+RENAME dept TO department;
+
+/* E8 - remove all rows - it remains the structure - no roll back */
+TRUNCATE TABLE dept;
+
+/* E9 adding comments*/
+COMMENT ON TABLE emp
+IS 'Employee Information';
+
+
+/* P1 */
+CREATE TABLE DEPARTEMENT(ID NUMBER(7), NAME VARCHAR2(25));
+
+/* P2 */
+INSERT INTO DEPARTMENT(SELECT deptno, dname FROM dept);
+
+/* P3 */
+CREATE TABLE employee(id number(7), last_name varchar2(25), first_name varchar2(25), dept_id number(7));
+
+/* P4 */
+ALTER TABLE employee
+MODIFY (last_name VARCHAR2(30));
+
+/* P5 confirm existence of new tables*/
+SELECT * 
+FROM user_tables;
+
+/* P6 */
+CREATE TABLE employee2
+AS SELECT empno ID, ename LAST_NAME, deptno DEPT_ID
+FROM emp;
+
+/* P7 */
+DROP TABLE employee;
+
+/* P8 */
+RENAME employee2 TO employee;
+
+/* P9 */
+COMMENT ON TABLE employee
+IS 'Employee Information';
+
+COMMENT ON TABLE department
+IS 'Department Information';
+
+SELECT *
+FROM user_tab_comments
+WHERE comments IS NOT NULL;

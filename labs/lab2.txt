@@ -1,0 +1,54 @@
+/* https://github.com/oracle/dotnet-db-samples/blob/master/schemas/scott.sql */
+
+SELECT * FROM EMP WHERE DEPTNO=10
+/* aliases are not allowed in the condition of WHERE*/
+
+SELECT ename, job, sal, deptno FROM EMP WHERE job='CLERK'
+/* it is case sensitive, so writting clerk, does not display anything */
+
+SELECT ename, sal, comm FROM EMP WHERE sal<=comm;
+
+SELECT ename, sal, comm FROM EMP WHERE sal BETWEEN 1000 AND 1500;
+/* [1000, 1500] */
+
+SELECT empno, ename, sal, mgr FROM EMP WHERE mgr IN (7902, 7566, 7788);
+
+SELECT ename FROM EMP WHERE ename LIKE 'S%';
+/* names that start with S, followed by 0 or more characters */
+
+SELECT ename FROM EMP WHERE ename LIKE '_A%';
+
+/* names that have the second letter A, followed by 0 or more characters */
+/* if the name contains _ or % use double quotations */
+
+SELECT ename, mgr FROM EMP WHERE mgr IS NULL;
+
+SELECT empno, ename, job, sal FROM EMP WHERE sal>= 1100 AND job='CLERK';
+SELECT empno, ename, job, sal FROM EMP WHERE sal>= 1100 OR job='CLERK';
+SELECT ename, job FROM EMP WHERE job NOT IN ('CLERK', 'MANAGER', 'ANALYST');
+
+SELECT ename, job, sal FROM EMP WHERE job='SALESMAN' OR job='PRESIDENT' AND sal>=1500;
+/* select the president with at least 1500 payment and then the salesmans */
+
+SELECT ename, job, sal FROM EMP WHERE (job='SALESMAN' OR job='PRESIDENT') AND sal>=1500;
+/* select the president and salemans with at least 1500 payment */
+
+SELECT ename, job, deptno, hiredate FROM EMP ORDER BY hiredate;
+/* ascending order is default ASC */
+/* aliases are allowed in ORDER BY */
+/* you can put more than one order criteria */
+
+SELECT ename, deptno, sal FROM EMP ORDER BY deptno, sal DESC;
+
+/* EXERCISES: */
+
+SELECT ename, sal FROM EMP WHERE sal>= 2850;
+SELECT ename, deptno FROM EMP WHERE empno=7566;
+SELECT ename, sal FROM EMP WHERE sal<=1500 OR sal>=2850 ORDER BY sal;
+SELECT ename, sal FROM EMP WHERE sal NOT BETWEEN 1500 AND 2850 ORDER BY sal;
+
+SELECT ename, sal, hiredate FROM EMP WHERE hiredate BETWEEN '02/20/1981' AND '05/01/1981' ORDER BY hiredate DESC;
+SELECT ename, sal FROM EMP WHERE ename LIKE 'A%' OR ename LIKE 'S%';
+SELECT ename, sal, comm FROM EMP WHERE comm IS NOT NULL;
+SELECT ename, deptno FROM EMP WHERE deptno NOT BETWEEN 10 AND 30 ORDER BY ename;
+SELECT ename AS "EMPLOYEE", sal AS "MONTHLY SALARY" FROM EMP WHERE sal>=1500 AND (job='SALESMAN' OR job='CLERK')
